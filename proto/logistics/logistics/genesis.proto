@@ -1,0 +1,17 @@
+syntax = "proto3";
+package logistics.logistics;
+
+import "amino/amino.proto";
+import "gogoproto/gogo.proto";
+import "logistics/logistics/params.proto";
+
+option go_package = "logistics/x/logistics/types";
+
+// GenesisState defines the logistics module's genesis state.
+message GenesisState {
+  // params defines all the parameters of the module.
+  Params params = 1 [
+    (gogoproto.nullable) = false,
+    (amino.dont_omitempty) = true
+  ];
+}

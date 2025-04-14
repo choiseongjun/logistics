@@ -1,0 +1,15 @@
+syntax = "proto3";
+package logistics.logistics;
+
+import "amino/amino.proto";
+import "gogoproto/gogo.proto";
+
+option go_package = "logistics/x/logistics/types";
+
+// Params defines the parameters for the module.
+message Params {
+  option (amino.name) = "logistics/x/logistics/Params";
+  option (gogoproto.equal) = true;
+
+  
+}
