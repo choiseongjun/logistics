@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package logistics.supplychain;
+
+import "amino/amino.proto";
+import "gogoproto/gogo.proto";
+import "logistics/supplychain/params.proto";
+import "logistics/supplychain/product.proto";
+import "logistics/supplychain/shipment.proto";
+import "logistics/supplychain/order.proto";
+
+option go_package = "logistics/x/supplychain/types";
+
+// GenesisState defines the supplychain module's genesis state.
+message GenesisState {
+  
+  // params defines all the parameters of the module.
+           Params   params        = 1 [(gogoproto.nullable) = false, (amino.dont_omitempty) = true];
+  repeated Product  productList   = 2 [(gogoproto.nullable) = false] ;
+           uint64   productCount  = 3;
+  repeated Shipment shipmentList  = 4 [(gogoproto.nullable) = false] ;
+           uint64   shipmentCount = 5;
+  repeated Order    orderList     = 6 [(gogoproto.nullable) = false] ;
+           uint64   orderCount    = 7;
+}
+

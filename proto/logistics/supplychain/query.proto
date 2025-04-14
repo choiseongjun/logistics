@@ -1,0 +1,115 @@
+syntax = "proto3";
+
+package logistics.supplychain;
+
+import "amino/amino.proto";
+import "gogoproto/gogo.proto";
+import "google/api/annotations.proto";
+import "cosmos/base/query/v1beta1/pagination.proto";
+import "logistics/supplychain/params.proto";
+import "logistics/supplychain/product.proto";
+import "logistics/supplychain/shipment.proto";
+import "logistics/supplychain/order.proto";
+
+option go_package = "logistics/x/supplychain/types";
+
+// Query defines the gRPC querier service.
+service Query {
+  
+  // Parameters queries the parameters of the module.
+  rpc Params (QueryParamsRequest) returns (QueryParamsResponse) {
+    option (google.api.http).get = "/logistics/supplychain/params";
+  
+  }
+  
+  // Queries a list of Product items.
+  rpc Product    (QueryGetProductRequest) returns (QueryGetProductResponse) {
+    option (google.api.http).get = "/logistics/supplychain/product/{id}";
+  
+  }
+  rpc ProductAll (QueryAllProductRequest) returns (QueryAllProductResponse) {
+    option (google.api.http).get = "/logistics/supplychain/product";
+  
+  }
+  
+  // Queries a list of Shipment items.
+  rpc Shipment    (QueryGetShipmentRequest) returns (QueryGetShipmentResponse) {
+    option (google.api.http).get = "/logistics/supplychain/shipment/{id}";
+  
+  }
+  rpc ShipmentAll (QueryAllShipmentRequest) returns (QueryAllShipmentResponse) {
+    option (google.api.http).get = "/logistics/supplychain/shipment";
+  
+  }
+  
+  // Queries a list of Order items.
+  rpc Order    (QueryGetOrderRequest) returns (QueryGetOrderResponse) {
+    option (google.api.http).get = "/logistics/supplychain/order/{id}";
+  
+  }
+  rpc OrderAll (QueryAllOrderRequest) returns (QueryAllOrderResponse) {
+    option (google.api.http).get = "/logistics/supplychain/order";
+  
+  }
+}
+// QueryParamsRequest is request type for the Query/Params RPC method.
+message QueryParamsRequest {}
+
+// QueryParamsResponse is response type for the Query/Params RPC method.
+message QueryParamsResponse {
+  
+  // params holds all the parameters of this module.
+  Params params = 1 [(gogoproto.nullable) = false, (amino.dont_omitempty) = true];
+}
+
+message QueryGetProductRequest {
+  uint64 id = 1;
+}
+
+message QueryGetProductResponse {
+  Product Product = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryAllProductRequest {
+  cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllProductResponse {
+  repeated Product                                Product    = 1 [(gogoproto.nullable) = false];
+           cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+message QueryGetShipmentRequest {
+  uint64 id = 1;
+}
+
+message QueryGetShipmentResponse {
+  Shipment Shipment = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryAllShipmentRequest {
+  cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllShipmentResponse {
+  repeated Shipment                               Shipment   = 1 [(gogoproto.nullable) = false];
+           cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+message QueryGetOrderRequest {
+  uint64 id = 1;
+}
+
+message QueryGetOrderResponse {
+  Order Order = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryAllOrderRequest {
+  cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllOrderResponse {
+  repeated Order                                  Order      = 1 [(gogoproto.nullable) = false];
+           cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+

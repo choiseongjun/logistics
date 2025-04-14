@@ -1,0 +1,16 @@
+syntax = "proto3";
+package logistics.supplychain;
+
+option go_package = "logistics/x/supplychain/types";
+
+message Shipment {
+  uint64 id = 1;
+  string shipmentId = 2; 
+  string productId = 3; 
+  string sender = 4; 
+  string receiver = 5; 
+  string status = 6; 
+  string location = 7; 
+  string timestamp = 8; 
+  
+}

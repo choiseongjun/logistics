@@ -1,0 +1,139 @@
+syntax = "proto3";
+
+package logistics.supplychain;
+
+import "amino/amino.proto";
+import "cosmos/msg/v1/msg.proto";
+import "cosmos_proto/cosmos.proto";
+import "gogoproto/gogo.proto";
+import "logistics/supplychain/params.proto";
+import "logistics/supplychain/order.proto";
+
+option go_package = "logistics/x/supplychain/types";
+
+// Msg defines the Msg service.
+service Msg {
+  option (cosmos.msg.v1.service) = true;
+  
+  // UpdateParams defines a (governance) operation for updating the module
+  // parameters. The authority defaults to the x/gov module account.
+  rpc UpdateParams      (MsgUpdateParams     ) returns (MsgUpdateParamsResponse     );
+  rpc TransferOwnership (MsgTransferOwnership) returns (MsgTransferOwnershipResponse);
+  rpc UpdateStatus      (MsgUpdateStatus     ) returns (MsgUpdateStatusResponse     );
+  rpc UpdateShipment    (MsgUpdateShipment   ) returns (MsgUpdateShipmentResponse   );
+  rpc CreateProduct     (MsgCreateProduct    ) returns (MsgCreateProductResponse    );
+  rpc CreateOrder       (MsgCreateOrder      ) returns (MsgCreateOrderResponse      );
+  rpc UpdateOrder       (MsgUpdateOrder      ) returns (MsgUpdateOrderResponse      );
+  rpc DeleteOrder       (MsgDeleteOrder      ) returns (MsgDeleteOrderResponse      );
+}
+// MsgUpdateParams is the Msg/UpdateParams request type.
+message MsgUpdateParams {
+  option (cosmos.msg.v1.signer) =                               "authority";
+  option           (amino.name) = "logistics/x/supplychain/MsgUpdateParams";
+  
+  // authority is the address that controls the module (defaults to x/gov unless overwritten).
+  string authority = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+
+  // params defines the module parameters to update.
+  
+  // NOTE: All parameters must be supplied.
+  Params params = 2 [(gogoproto.nullable) = false, (amino.dont_omitempty) = true];
+}
+
+// MsgUpdateParamsResponse defines the response structure for executing a
+// MsgUpdateParams message.
+message MsgUpdateParamsResponse {}
+
+message MsgTransferOwnership {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator   = 1;
+  string productId = 2;
+  string newOwner  = 3;
+  string location  = 4;
+}
+
+message MsgTransferOwnershipResponse {
+  string ownerId   = 1;
+  string timestamp = 2;
+}
+
+message MsgUpdateStatus {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator   = 1;
+  string productId = 2;
+  string newStatus = 3;
+}
+
+message MsgUpdateStatusResponse {
+  string productId = 1;
+  string timestamp = 2;
+}
+
+message MsgUpdateShipment {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator     = 1;
+  string shipmentId  = 2;
+  string newStatus   = 3;
+  string newLocation = 4;
+}
+
+message MsgUpdateShipmentResponse {
+  string shipmentId = 1;
+  string timestamp  = 2;
+}
+
+message MsgCreateProduct {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator      = 1;
+  string productId    = 2;
+  string name         = 3;
+  string origin       = 4;
+  string currentOwner = 5;
+  string status       = 6;
+}
+
+message MsgCreateProductResponse {
+  string productId = 1;
+}
+
+message MsgCreateOrder {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator    = 1;
+  string orderId    = 2;
+  string purchaseId = 3;
+  string seller     = 4;
+  string buyer      = 5;
+  string status     = 6;
+  string items      = 7;
+  string price      = 8;
+  string timestamp  = 9;
+}
+
+message MsgCreateOrderResponse {
+  uint64 id = 1;
+}
+
+message MsgUpdateOrder {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator    =  1;
+  uint64 id         =  2;
+  string orderId    =  3;
+  string purchaseId =  4;
+  string seller     =  5;
+  string buyer      =  6;
+  string status     =  7;
+  string items      =  8;
+  string price      =  9;
+  string timestamp  = 10;
+}
+
+message MsgUpdateOrderResponse {}
+
+message MsgDeleteOrder {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1;
+  uint64 id      = 2;
+}
+
+message MsgDeleteOrderResponse {}
+

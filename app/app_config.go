@@ -54,8 +54,11 @@ import (
 	"google.golang.org/protobuf/types/known/durationpb"
 
 	logisticsmodulev1 "logistics/api/logistics/logistics/module"
+	supplychainmodulev1 "logistics/api/logistics/supplychain/module"
 	_ "logistics/x/logistics/module" // import for side-effects
 	logisticsmoduletypes "logistics/x/logistics/types"
+	_ "logistics/x/supplychain/module" // import for side-effects
+	supplychainmoduletypes "logistics/x/supplychain/types"
 	// this line is used by starport scaffolding # stargate/app/moduleImport
 )
 
@@ -94,6 +97,7 @@ var (
 		circuittypes.ModuleName,
 		// chain modules
 		logisticsmoduletypes.ModuleName,
+		supplychainmoduletypes.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/initGenesis
 	}
 
@@ -119,6 +123,7 @@ var (
 		ibcfeetypes.ModuleName,
 		// chain modules
 		logisticsmoduletypes.ModuleName,
+		supplychainmoduletypes.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/beginBlockers
 	}
 
@@ -138,6 +143,7 @@ var (
 		ibcfeetypes.ModuleName,
 		// chain modules
 		logisticsmoduletypes.ModuleName,
+		supplychainmoduletypes.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/endBlockers
 	}
 
@@ -158,6 +164,7 @@ var (
 		{Account: ibctransfertypes.ModuleName, Permissions: []string{authtypes.Minter, authtypes.Burner}},
 		{Account: ibcfeetypes.ModuleName},
 		{Account: icatypes.ModuleName},
+		{Account: supplychainmoduletypes.ModuleName, Permissions: []string{authtypes.Minter, authtypes.Burner, authtypes.Staking}},
 		// this line is used by starport scaffolding # stargate/app/maccPerms
 	}
 
@@ -296,6 +303,10 @@ var (
 			{
 				Name:   logisticsmoduletypes.ModuleName,
 				Config: appconfig.WrapAny(&logisticsmodulev1.Module{}),
+			},
+			{
+				Name:   supplychainmoduletypes.ModuleName,
+				Config: appconfig.WrapAny(&supplychainmodulev1.Module{}),
 			},
 			// this line is used by starport scaffolding # stargate/app/moduleConfig
 		},
